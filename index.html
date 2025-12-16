@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Winloss Calculator Pro</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+        /* Custom scrollbar for dark theme */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #1e293b; }
+        ::-webkit-scrollbar-thumb { background: #475569; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #64748b; }
+    </style>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        background: '#0f172a', // slate-950
+                        surface: '#1e293b',    // slate-800
+                        primary: '#3b82f6',    // blue-500
+                        accent: '#0ea5e9',     // sky-500
+                        border: '#334155',     // slate-700
+                        text: '#f8fafc',       // slate-50
+                        muted: '#94a3b8',      // slate-400
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-text min-h-screen p-4 md:p-8">
+
+    <div class="max-w-6xl mx-auto space-y-8">
+        
+        <!-- Header -->
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-border pb-6">
+            <div>
+                <h1 class="text-3xl font-bold tracking-tight text-white">𝐖𝐢𝐧𝐥𝐨𝐬𝐬 𝐂𝐚𝐥𝐜𝐮𝐥𝐚𝐭𝐨𝐫</h1>
+                <p class="text-muted">𝚃𝚅𝚃𝙾𝚃𝙾</p>
+            </div>
+            <button onclick="clearAllData()" class="px-4 py-2 text-sm font-medium text-red-400 border border-red-900/50 rounded-md hover:bg-red-900/20 transition-colors flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+                Reset Semua Data
+            </button>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            
+            <!-- Left Column: Input Form -->
+            <div class="space-y-6">
+                <div class="bg-surface border border-border rounded-xl shadow-sm overflow-hidden">
+                    <div class="p-6 border-b border-border">
+                        <h2 class="text-xl font-semibold flex items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary"><rect width="16" height="20" x="4" y="2" rx="2"/><line x1="8" x2="16" y1="6" y2="6"/><line x1="16" x2="16" y1="14" y2="18"/><path d="M16 10h.01"/><path d="M12 10h.01"/><path d="M8 10h.01"/><path d="M12 14h.01"/><path d="M8 14h.01"/><path d="M12 18h.01"/><path d="M8 18h.01"/></svg>
+                            Input Data
+                        </h2>
+                        <p class="text-sm text-muted mt-1">Pilih kategori, provider, dan tempel data Excel.</p>
+                    </div>
+                    
+                    <div class="p-6 space-y-5">
+                        
+                        <!-- Date Inputs -->
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="space-y-2">
+                                <label class="text-sm font-medium text-muted">Tanggal Awal</label>
+                                <input type="date" id="startDate" class="w-full bg-background border border-border rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-white" onchange="updateReportPreview()">
+                            </div>
+                            <div class="space-y-2">
+                                <label class="text-sm font-medium text-muted">Tanggal Akhir</label>
+                                <input type="date" id="endDate" class="w-full bg-background border border-border rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-white" onchange="updateReportPreview()">
+                            </div>
+                        </div>
+
+                        <!-- Category & Provider -->
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="space-y-2">
+                                <label class="text-sm font-medium text-muted">Kategori</label>
+                                <select id="categorySelect" onchange="handleCategoryChange()" class="w-full bg-background border border-border rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-white">
+                                    <option value="SLOT">SLOT</option>
+                                    <option value="LIVEGAME">LIVEGAME</option>
+                                    <option value="SPORT">SPORT</option>
+                                </select>
+                            </div>
+                            <div class="space-y-2">
+                                <label class="text-sm font-medium text-muted">Provider</label>
+                                <select id="providerSelect" class="w-full bg-background border border-border rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-white">
+                                    <option value="">Pilih Provider...</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Threshold -->
+                        <div class="space-y-2">
+                            <label class="text-sm font-medium text-muted">Batas Nominal (Kolom C)</label>
+                            <input type="number" id="thresholdInput" value="-100000" class="w-full bg-background border border-border rounded-md px-3 py-2 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-white">
+                            <p class="text-xs text-muted">Hanya data ≤ nilai ini yang akan dihitung.</p>
+                        </div>
+
+                        <!-- Textarea -->
+                        <div class="space-y-2">
+                            <label class="text-sm font-medium text-muted">Tempel Data Excel</label>
+                            <textarea id="dataInput" placeholder="Paste baris data dari Excel di sini..." class="w-full h-48 bg-background border border-border rounded-md px-3 py-2 text-xs font-mono leading-relaxed focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-zinc-300 resize-none"></textarea>
+                        </div>
+
+                        <!-- Action Button -->
+                        <button onclick="processData()" class="w-full bg-primary hover:bg-blue-600 text-white font-medium py-2.5 rounded-md transition-colors flex items-center justify-center gap-2 shadow-lg shadow-blue-900/20">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+                            Proses & Tambahkan ke Laporan
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Result -->
+            <div class="space-y-6">
+                <div class="bg-surface border border-border rounded-xl shadow-sm h-full flex flex-col">
+                    <div class="p-6 border-b border-border flex items-center justify-between">
+                        <div class="space-y-1">
+                            <h2 class="text-xl font-semibold flex items-center gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><path d="M12 18v-4"/><path d="M8 18v-4"/><path d="M16 18v-4"/></svg>
+                                Hasil Laporan
+                            </h2>
+                            <p class="text-sm text-muted">Preview otomatis, siap disalin.</p>
+                        </div>
+                        <button onclick="copyToClipboard()" class="bg-slate-700 hover:bg-slate-600 text-white px-3 py-1.5 rounded text-sm font-medium flex items-center gap-2 transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg>
+                            Copy Text
+                        </button>
+                    </div>
+                    
+                    <div class="p-6 flex-1 bg-black/20">
+                        <div id="reportOutput" class="w-full h-full min-h-[500px] font-mono text-sm whitespace-pre-wrap text-zinc-300 overflow-y-auto pr-2"></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-4 right-4 bg-white text-slate-900 px-4 py-3 rounded-lg shadow-xl transform translate-y-20 opacity-0 transition-all duration-300 flex items-center gap-3 z-50">
+        <div id="toastIcon" class="text-green-500">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+        </div>
+        <div>
+            <h4 id="toastTitle" class="font-bold text-sm">Success</h4>
+            <p id="toastMessage" class="text-sm text-slate-500">Operation completed.</p>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        // --- DATA & CONFIG ---
+        const CATEGORIES = {
+            SLOT: [
+                "5G", "ASK SLOT", "BIGTIMEGAMING", "FatPanda", "GGSoft", "HABANERO", 
+                "HACKSAW", "JILI SLOT", "JOKER SLOT", "Liteplay", "NETENT", "NOLIMITCITY", 
+                "PG", "Playtech", "Playstar", "PNG SLOT", "PRAGMATIC PLAY SLOT", 
+                "RED TIGER", "WMC", "WowGaming"
+            ],
+            LIVEGAME: [
+                "BG", "Empire Gaming", "EVOLUTION", "Jmarble", "PNG LIVE", 
+                "PRAGMATIC PLAY LIVE", "RGCASINO", "SA GAMING", "SEXYGAMING", "TGION", "EEAI"
+            ],
+            SPORT: [
+                "AP", "CMD368 SPORTS", "SBO", "TF", "XJ"
+            ]
+        };
+
+        // Initialize State
+        let reportData = {};
+        
+        // --- UTILS ---
+        function toBoldUnicode(str) {
+            const diffUpper = 0x1D400 - 0x41;
+            const diffLower = 0x1D41A - 0x61;
+            const diffDigit = 0x1D7CE - 0x30;
+
+            return str.split('').map(char => {
+                const code = char.charCodeAt(0);
+                if (code >= 0x41 && code <= 0x5A) return String.fromCodePoint(code + diffUpper);
+                if (code >= 0x61 && code <= 0x7A) return String.fromCodePoint(code + diffLower);
+                if (code >= 0x30 && code <= 0x39) return String.fromCodePoint(code + diffDigit);
+                return char;
+            }).join('');
+        }
+
+        function formatCurrency(amount) {
+            return new Intl.NumberFormat('en-US', { minimumFractionDigits: 0 }).format(amount);
+        }
+
+        function formatDate(dateString) {
+            if (!dateString) return "Unknown";
+            const date = new Date(dateString);
+            return new Intl.DateTimeFormat('id-ID', { day: '2-digit', month: 'long' }).format(date);
+        }
+
+        function showToast(title, message, type = 'success') {
+            const toast = document.getElementById('toast');
+            const toastTitle = document.getElementById('toastTitle');
+            const toastMessage = document.getElementById('toastMessage');
+            const toastIcon = document.getElementById('toastIcon');
+
+            toastTitle.innerText = title;
+            toastMessage.innerText = message;
+            
+            if (type === 'error') {
+                toastIcon.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-red-500"><circle cx="12" cy="12" r="10"/><line x1="15" x2="9" y1="9" y2="15"/><line x1="9" x2="15" y1="9" y2="15"/></svg>';
+            } else {
+                toastIcon.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-green-500"><path d="M20 6 9 17l-5-5"/></svg>';
+            }
+
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3000);
+        }
+
+        // --- LOGIC ---
+        function init() {
+            // Set default dates to today
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('startDate').value = today;
+            document.getElementById('endDate').value = today;
+
+            handleCategoryChange(); // Populate providers
+            updateReportPreview();
+        }
+
+        function handleCategoryChange() {
+            const categorySelect = document.getElementById('categorySelect');
+            const providerSelect = document.getElementById('providerSelect');
+            const selectedCategory = categorySelect.value;
+            
+            // Clear existing options
+            providerSelect.innerHTML = '<option value="">Pilih Provider...</option>';
+
+            // Add new options
+            if (CATEGORIES[selectedCategory]) {
+                CATEGORIES[selectedCategory].forEach(prov => {
+                    const option = document.createElement('option');
+                    option.value = prov;
+                    option.text = prov;
+                    providerSelect.appendChild(option);
+                });
+            }
+        }
+
+        function processData() {
+            const category = document.getElementById('categorySelect').value;
+            const provider = document.getElementById('providerSelect').value;
+            const threshold = parseFloat(document.getElementById('thresholdInput').value);
+            const rawData = document.getElementById('dataInput').value;
+
+            if (!category || !provider) {
+                showToast("Error", "Pilih Kategori dan Provider terlebih dahulu.", "error");
+                return;
+            }
+
+            if (!rawData.trim()) {
+                showToast("Data Kosong", "Silakan tempel data Excel ke kolom input.", "error");
+                return;
+            }
+
+            const rows = rawData.split(/\r?\n/);
+            let totalAdded = 0;
+            let count = 0;
+
+            rows.forEach(row => {
+                const cols = row.split("\t");
+                if (cols.length > 2) {
+                    const rawValue = cols[2].replace(/[^0-9.-]/g, "");
+                    const value = parseFloat(rawValue);
+
+                    if (!isNaN(value) && value <= threshold) {
+                        totalAdded += value;
+                        count++;
+                    }
+                }
+            });
+
+            if (count === 0) {
+                showToast("Tidak Ada Data", `Tidak ditemukan data dengan nilai <= ${threshold}`, "error");
+            } else {
+                // Update State
+                if (!reportData[category]) reportData[category] = {};
+                if (!reportData[category][provider]) reportData[category][provider] = 0;
+                
+                reportData[category][provider] += totalAdded;
+
+                showToast("Sukses", `Berhasil memproses ${count} baris data.`);
+                document.getElementById('dataInput').value = ""; // Clear input
+                updateReportPreview();
+            }
+        }
+
+        function clearAllData() {
+            if (confirm("Yakin ingin menghapus semua data laporan?")) {
+                reportData = {};
+                updateReportPreview();
+                showToast("Reset", "Data laporan berhasil dihapus.");
+            }
+        }
+
+        function generateReportText() {
+            const startDate = document.getElementById('startDate').value;
+            const endDate = document.getElementById('endDate').value;
+            
+            const startStr = formatDate(startDate);
+            const endStr = formatDate(endDate);
+
+            let text = `${toBoldUnicode(`Bonus Winlose Periode ${startStr} - ${endStr}`)}\n\n`;
+
+            const categoriesOrder = ["LIVEGAME", "SPORT", "SLOT"];
+
+            categoriesOrder.forEach(cat => {
+                const catData = reportData[cat];
+                text += `${toBoldUnicode(cat)}\n`;
+                
+                let catTotal = 0;
+                const providers = CATEGORIES[cat];
+
+                if (providers) {
+                    providers.forEach(prov => {
+                        const val = catData?.[prov] || 0;
+                        catTotal += val;
+                        text += `${prov} : ${val === 0 ? "0" : formatCurrency(val)}\n`;
+                    });
+                }
+                
+                text += `\nTOTAL :  ${toBoldUnicode(formatCurrency(catTotal))}\n\t\n`;
+            });
+
+            return text;
+        }
+
+        function updateReportPreview() {
+            const output = document.getElementById('reportOutput');
+            output.innerText = generateReportText();
+        }
+
+        function copyToClipboard() {
+            const text = generateReportText();
+            navigator.clipboard.writeText(text).then(() => {
+                showToast("Tersalin", "Laporan berhasil disalin ke clipboard.");
+            });
+        }
+
+        // Start
+        window.onload = init;
+
+    </script>
+</body>
+</html>
