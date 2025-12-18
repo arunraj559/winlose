@@ -10,19 +10,21 @@
         body { 
             font-family: 'Inter', sans-serif;
             background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
         }
         .font-mono { font-family: 'JetBrains Mono', monospace; }
         
         /* Custom scrollbar */
-        ::-webkit-scrollbar { width: 8px; height: 8px; }
-        ::-webkit-scrollbar-track { background: #1e293b; }
-        ::-webkit-scrollbar-thumb { background: #475569; border-radius: 4px; }
+        ::-webkit-scrollbar { width: 4px; height: 4px; }
+        ::-webkit-scrollbar-track { background: #1e293b; border-radius: 2px; }
+        ::-webkit-scrollbar-thumb { background: #475569; border-radius: 2px; }
         ::-webkit-scrollbar-thumb:hover { background: #64748b; }
         
         /* Glassmorphism effect */
         .glass {
-            background: rgba(30, 41, 59, 0.7);
-            backdrop-filter: blur(10px);
+            background: rgba(30, 41, 59, 0.85);
+            backdrop-filter: blur(12px);
             border: 1px solid rgba(148, 163, 184, 0.1);
         }
         
@@ -36,43 +38,44 @@
         .gradient-border {
             position: relative;
             background: linear-gradient(135deg, #1e293b, #0f172a);
-            border-radius: 16px;
+            border-radius: 12px;
+            overflow: hidden;
         }
         
         .gradient-border::before {
             content: '';
             position: absolute;
-            inset: -2px;
-            border-radius: 16px;
-            padding: 2px;
+            inset: -1px;
+            border-radius: 12px;
+            padding: 1px;
             background: linear-gradient(135deg, #3b82f6, #8b5cf6, #ec4899, #3b82f6);
             background-size: 300% 300%;
             -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
             -webkit-mask-composite: xor;
             mask-composite: exclude;
-            animation: gradientShift 3s ease infinite;
-            opacity: 0.5;
+            animation: gradientShift 4s ease infinite;
+            opacity: 0.6;
         }
         
-        /* Hover glow effect */
+        /* Hover effects */
         .hover-glow {
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
         .hover-glow:hover {
-            box-shadow: 0 0 30px rgba(59, 130, 246, 0.3);
+            box-shadow: 0 10px 40px rgba(59, 130, 246, 0.15);
             transform: translateY(-2px);
         }
         
         /* Animated background particles */
         .particle {
             position: fixed;
-            width: 4px;
-            height: 4px;
-            background: rgba(59, 130, 246, 0.3);
+            width: 2px;
+            height: 2px;
+            background: rgba(59, 130, 246, 0.4);
             border-radius: 50%;
             pointer-events: none;
-            animation: float 8s ease-in-out infinite;
+            animation: float 12s ease-in-out infinite;
         }
         
         @keyframes float {
@@ -80,7 +83,7 @@
             50% { opacity: 1; }
         }
         
-        /* Number counter animation */
+        /* Animations */
         @keyframes countUp {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
@@ -90,7 +93,11 @@
             animation: countUp 0.5s ease-out;
         }
         
-        /* Shimmer effect for buttons */
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
         .shimmer {
             position: relative;
             overflow: hidden;
@@ -100,36 +107,79 @@
             content: '';
             position: absolute;
             top: 0;
-            left: -100%;
+            left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
             animation: shimmer 3s infinite;
         }
         
-        @keyframes shimmer {
-            100% { left: 100%; }
-        }
-        
-        /* Stats card pulse */
         @keyframes pulse {
             0%, 100% { opacity: 1; }
-            50% { opacity: 0.8; }
+            50% { opacity: 0.85; }
         }
         
         .stat-pulse {
-            animation: pulse 2s ease-in-out infinite;
+            animation: pulse 3s ease-in-out infinite;
         }
         
         /* Tab styling */
         .tab-active {
-            background: linear-gradient(to right, rgba(59, 130, 246, 0.2), rgba(139, 92, 246, 0.2));
+            background: linear-gradient(to right, rgba(59, 130, 246, 0.25), rgba(139, 92, 246, 0.25));
             border-bottom: 2px solid #3b82f6;
         }
         
-        /* Table styling */
-        .table-row:hover {
-            background-color: rgba(59, 130, 246, 0.1);
+        /* Better table responsiveness */
+        .table-container {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .table-container table {
+            min-width: 700px;
+        }
+        
+        /* Better input styling */
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+        }
+        
+        /* Prevent text overflow */
+        .text-ellipsis {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        
+        /* Mobile optimizations */
+        @media (max-width: 640px) {
+            .mobile-full {
+                width: 100% !important;
+            }
+            
+            .mobile-text-xs {
+                font-size: 0.625rem !important;
+            }
+            
+            .mobile-text-sm {
+                font-size: 0.75rem !important;
+            }
+            
+            .mobile-p-2 {
+                padding: 0.5rem !important;
+            }
+            
+            .mobile-gap-1 {
+                gap: 0.25rem !important;
+            }
+        }
+        
+        /* Fix for iOS Safari */
+        @supports (-webkit-touch-callout: none) {
+            body {
+                -webkit-text-size-adjust: 100%;
+            }
         }
     </style>
     <script>
@@ -145,293 +195,302 @@
                         border: '#334155',
                         text: '#f8fafc',
                         muted: '#94a3b8',
+                    },
+                    spacing: {
+                        '18': '4.5rem',
+                        '88': '22rem',
                     }
                 }
             }
         }
     </script>
 </head>
-<body class="min-h-screen p-4 md:p-8 relative overflow-x-hidden">
+<body class="min-h-screen relative overflow-x-hidden">
 
     <!-- Animated background particles -->
-    <div id="particles"></div>
+    <div id="particles" class="fixed inset-0 pointer-events-none"></div>
 
-    <div class="max-w-7xl mx-auto space-y-8 relative z-10">
+    <div class="max-w-7xl mx-auto px-2 sm:px-4 md:px-6 lg:px-8 py-3 sm:py-4 md:py-6 lg:py-8 relative z-10">
         
-        <!-- Header with enhanced styling -->
-        <div class="glass rounded-2xl p-8 hover-glow">
-            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                <div class="space-y-2">
-                    <div class="flex items-center gap-4">
-                        <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" x2="12" y1="2" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-                        </div>
-                        <div>
-                            <h1 class="text-4xl font-black tracking-tight text-white bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
-                                𝐖𝐢𝐧𝐥𝐨𝐬𝐬 & 𝐁𝐨𝐧𝐮𝐬 𝐂𝐚𝐥𝐜𝐮𝐥𝐚𝐭𝐨𝐫 
-                            </h1>
-                            <p class="text-muted text-sm flex items-center gap-2">
-                                <span class="inline-block w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-                                TVTOTO - PNG
-                            </p>
-                        </div>
+        <!-- Header -->
+        <header class="glass rounded-xl sm:rounded-2xl p-3 sm:p-4 md:p-6 lg:p-8 hover-glow mb-4 sm:mb-6">
+            <div class="flex flex-col gap-3 sm:gap-4">
+                <!-- Title Section -->
+                <div class="flex items-center gap-2 sm:gap-3 md:gap-4">
+                    <div class="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg sm:rounded-xl flex items-center justify-center flex-shrink-0">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" x2="12" y1="2" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                    </div>
+                    <div class="min-w-0 flex-1">
+                        <h1 class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-black tracking-tight text-white bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent break-words">
+                            𝐖𝐢𝐧𝐥𝐨𝐬𝐬 & 𝐁𝐨𝐧𝐮𝐬 𝐂𝐚𝐥𝐜𝐮𝐥𝐚𝐭𝐨𝐫
+                        </h1>
+                        <p class="text-muted text-xs sm:text-sm flex items-center gap-2 mt-1">
+                            <span class="inline-block w-1.5 h-1.5 sm:w-2 sm:h-2 bg-green-500 rounded-full animate-pulse"></span>
+                            <span class="text-ellipsis">𝚃𝚅𝚃𝙾𝚃𝙾 - Professional Edition</span>
+                        </p>
                     </div>
                 </div>
-                <button onclick="clearAllData()" class="shimmer px-6 py-3 text-sm font-semibold text-red-400 bg-red-950/30 border border-red-900/50 rounded-xl hover:bg-red-900/40 transition-all duration-300 flex items-center gap-2 hover:scale-105">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
-                    Reset Data
-                </button>
+                
+                <!-- Reset Button -->
+                <div class="flex justify-start sm:justify-end">
+                    <button onclick="clearAllData()" class="shimmer px-3 py-1.5 sm:px-4 sm:py-2 md:px-6 md:py-3 text-xs sm:text-sm font-semibold text-red-400 bg-red-950/30 border border-red-900/50 rounded-lg sm:rounded-xl hover:bg-red-900/40 transition-all duration-300 flex items-center gap-1.5 sm:gap-2 hover:scale-105">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+                        <span class="hidden sm:inline">Reset</span>
+                    </button>
+                </div>
             </div>
-        </div>
+        </header>
 
         <!-- Tabs Navigation -->
-        <div class="glass rounded-xl p-2 flex flex-wrap gap-2">
-            <button id="winlossTab" onclick="switchTab('winloss')" class="tab-active px-6 py-3 rounded-lg font-semibold text-white transition-all duration-300 flex items-center gap-2">
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" x2="12" y1="2" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-                Winloss Calculator
+        <nav class="glass rounded-lg sm:rounded-xl p-1.5 sm:p-2 flex gap-1.5 sm:gap-2 mb-4 sm:mb-6">
+            <button id="winlossTab" onclick="switchTab('winloss')" class="tab-active flex-1 px-2 py-2 sm:px-3 sm:py-2.5 md:px-6 md:py-3 rounded-lg font-semibold text-white transition-all duration-300 flex items-center justify-center gap-1.5 sm:gap-2 text-xs sm:text-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" x2="12" y1="2" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                <span>Winloss</span>
             </button>
-            <button id="bonusTab" onclick="switchTab('bonus')" class="px-6 py-3 rounded-lg font-semibold text-white hover:bg-slate-700/50 transition-all duration-300 flex items-center gap-2">
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-                Bonus Calculator
+            <button id="bonusTab" onclick="switchTab('bonus')" class="flex-1 px-2 py-2 sm:px-3 sm:py-2.5 md:px-6 md:py-3 rounded-lg font-semibold text-white hover:bg-slate-700/50 transition-all duration-300 flex items-center justify-center gap-1.5 sm:gap-2 text-xs sm:text-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                <span>Bonus</span>
             </button>
-        </div>
+        </nav>
 
         <!-- Stats Overview -->
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-4" id="statsContainer">
-            <div class="glass rounded-xl p-6 hover-glow stat-pulse">
+        <section class="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3 md:gap-4 mb-4 sm:mb-6" id="statsContainer">
+            <div class="glass rounded-lg sm:rounded-xl p-3 sm:p-4 md:p-6 hover-glow stat-pulse">
                 <div class="flex items-center justify-between">
-                    <div>
-                        <p class="text-muted text-sm font-medium mb-1">Total Entries</p>
-                        <h3 class="text-3xl font-bold text-white" id="totalEntries">0</h3>
+                    <div class="min-w-0 flex-1">
+                        <p class="text-muted text-xs sm:text-sm font-medium mb-1">Total Entries</p>
+                        <h3 class="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-white truncate" id="totalEntries">0</h3>
                     </div>
-                    <div class="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    <div class="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 bg-blue-500/20 rounded-lg flex items-center justify-center flex-shrink-0 ml-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
                     </div>
                 </div>
             </div>
             
-            <div class="glass rounded-xl p-6 hover-glow stat-pulse" style="animation-delay: 0.2s">
+            <div class="glass rounded-lg sm:rounded-xl p-3 sm:p-4 md:p-6 hover-glow stat-pulse" style="animation-delay: 0.2s">
                 <div class="flex items-center justify-between">
-                    <div>
-                        <p class="text-muted text-sm font-medium mb-1">Total Amount</p>
-                        <h3 class="text-3xl font-bold text-white" id="totalAmount">0</h3>
+                    <div class="min-w-0 flex-1">
+                        <p class="text-muted text-xs sm:text-sm font-medium mb-1">Total Amount</p>
+                        <h3 class="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-white truncate" id="totalAmount">0</h3>
                     </div>
-                    <div class="w-12 h-12 bg-purple-500/20 rounded-xl flex items-center justify-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" x2="12" y1="2" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                    <div class="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 bg-purple-500/20 rounded-lg flex items-center justify-center flex-shrink-0 ml-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" x2="12" y1="2" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
                     </div>
                 </div>
             </div>
             
-            <div class="glass rounded-xl p-6 hover-glow stat-pulse" style="animation-delay: 0.4s">
+            <div class="glass rounded-lg sm:rounded-xl p-3 sm:p-4 md:p-6 hover-glow stat-pulse" style="animation-delay: 0.4s">
                 <div class="flex items-center justify-between">
-                    <div>
-                        <p class="text-muted text-sm font-medium mb-1">Total Bonus</p>
-                        <h3 class="text-3xl font-bold text-white" id="totalBonus">0</h3>
+                    <div class="min-w-0 flex-1">
+                        <p class="text-muted text-xs sm:text-sm font-medium mb-1">Total Bonus</p>
+                        <h3 class="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-white truncate" id="totalBonus">0</h3>
                     </div>
-                    <div class="w-12 h-12 bg-green-500/20 rounded-xl flex items-center justify-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                    <div class="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 bg-green-500/20 rounded-lg flex items-center justify-center flex-shrink-0 ml-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
                     </div>
                 </div>
             </div>
             
-            <div class="glass rounded-xl p-6 hover-glow stat-pulse" style="animation-delay: 0.6s">
+            <div class="glass rounded-lg sm:rounded-xl p-3 sm:p-4 md:p-6 hover-glow stat-pulse" style="animation-delay: 0.6s">
                 <div class="flex items-center justify-between">
-                    <div>
-                        <p class="text-muted text-sm font-medium mb-1">Categories</p>
-                        <h3 class="text-3xl font-bold text-white" id="totalCategories">3</h3>
+                    <div class="min-w-0 flex-1">
+                        <p class="text-muted text-xs sm:text-sm font-medium mb-1">Categories</p>
+                        <h3 class="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-white truncate" id="totalCategories">3</h3>
                     </div>
-                    <div class="w-12 h-12 bg-pink-500/20 rounded-xl flex items-center justify-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ec4899" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg>
+                    <div class="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 bg-pink-500/20 rounded-lg flex items-center justify-center flex-shrink-0 ml-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ec4899" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg>
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
 
         <!-- Winloss Calculator Tab Content -->
-        <div id="winlossContent" class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            
-            <!-- Left Column: Input Form -->
-            <div class="space-y-6">
-                <div class="gradient-border hover-glow">
-                    <div class="glass rounded-2xl overflow-hidden">
-                        <div class="p-6 border-b border-slate-700/50 bg-gradient-to-r from-blue-600/10 to-purple-600/10">
-                            <h2 class="text-xl font-bold flex items-center gap-3">
-                                <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="20" x="4" y="2" rx="2"/><line x1="8" x2="16" y1="6" y2="6"/></svg>
-                                </div>
-                                <span class="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">Input Data</span>
-                            </h2>
-                            <p class="text-sm text-muted mt-2">Pilih kategori, provider, dan tempel data Excel Anda.</p>
-                        </div>
-                        
-                        <div class="p-6 space-y-5">
-                            
-                            <!-- Date Inputs with icons -->
-                            <div class="grid grid-cols-2 gap-4">
-                                <div class="space-y-2">
-                                    <label class="text-sm font-semibold text-slate-300 flex items-center gap-2">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
-                                        Tanggal Awal
-                                    </label>
-                                    <input type="date" id="startDate" class="w-full bg-slate-900/50 border border-slate-700 rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white transition-all hover:border-blue-500/50" onchange="updateReportPreview()">
-                                </div>
-                                <div class="space-y-2">
-                                    <label class="text-sm font-semibold text-slate-300 flex items-center gap-2">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
-                                        Tanggal Akhir
-                                    </label>
-                                    <input type="date" id="endDate" class="w-full bg-slate-900/50 border border-slate-700 rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white transition-all hover:border-blue-500/50" onchange="updateReportPreview()">
-                                </div>
-                            </div>
-
-                            <!-- Category & Provider with enhanced styling -->
-                            <div class="grid grid-cols-2 gap-4">
-                                <div class="space-y-2">
-                                    <label class="text-sm font-semibold text-slate-300 flex items-center gap-2">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg>
-                                        Kategori
-                                    </label>
-                                    <select id="categorySelect" onchange="handleCategoryChange()" class="w-full bg-slate-900/50 border border-slate-700 rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white transition-all hover:border-blue-500/50 cursor-pointer">
-                                        <option value="SLOT">SLOT</option>
-                                        <option value="LIVEGAME">LIVEGAME</option>
-                                        <option value="SPORT">SPORT</option>
-                                    </select>
-                                </div>
-                                <div class="space-y-2">
-                                    <label class="text-sm font-semibold text-slate-300 flex items-center gap-2">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
-                                        Provider
-                                    </label>
-                                    <select id="providerSelect" class="w-full bg-slate-900/50 border border-slate-700 rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white transition-all hover:border-blue-500/50 cursor-pointer">
-                                        <option value="">Pilih Provider...</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <!-- Threshold with enhanced design -->
-                            <div class="space-y-2">
-                                <label class="text-sm font-semibold text-slate-300 flex items-center gap-2">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12a2 2 0 0 0 0 4h4v-4Z"/></svg>
-                                    Batas Nominal (Kolom C)
-                                </label>
-                                <input type="number" id="thresholdInput" value="-100000" class="w-full bg-slate-900/50 border border-slate-700 rounded-lg px-4 py-3 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white transition-all hover:border-blue-500/50">
-                                <p class="text-xs text-slate-400 flex items-center gap-2">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
-                                    Hanya data ≤ nilai ini yang akan dihitung.
-                                </p>
-                            </div>
-
-                            <!-- Textarea with enhanced design -->
-                            <div class="space-y-2">
-                                <label class="text-sm font-semibold text-slate-300 flex items-center gap-2">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-                                    Tempel Data Excel
-                                </label>
-                                <textarea id="dataInput" placeholder="Paste baris data dari Excel di sini... (gunakan Tab untuk pemisah kolom)" class="w-full h-56 bg-slate-900/50 border border-slate-700 rounded-lg px-4 py-3 text-xs font-mono leading-relaxed focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-zinc-300 resize-none transition-all hover:border-blue-500/50"></textarea>
-                            </div>
-
-                            <!-- Action Button with enhanced design -->
-                            <button onclick="processData()" class="shimmer w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white font-bold py-4 rounded-xl transition-all duration-300 flex items-center justify-center gap-3 shadow-lg shadow-blue-900/50 hover:shadow-xl hover:shadow-blue-900/70 hover:scale-[1.02]">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
-                                Proses & Tambahkan ke Laporan
-                            </button>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Right Column: Result -->
-            <div class="space-y-6">
-                <div class="gradient-border hover-glow h-full">
-                    <div class="glass rounded-2xl h-full flex flex-col">
-                        <div class="p-6 border-b border-slate-700/50 flex items-center justify-between bg-gradient-to-r from-purple-600/10 to-pink-600/10">
-                            <div class="space-y-2">
-                                <h2 class="text-xl font-bold flex items-center gap-3">
-                                    <div class="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-600 rounded-lg flex items-center justify-center">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
+        <main id="winlossContent" class="space-y-3 sm:space-y-4 md:space-y-6">
+            <div class="grid grid-cols-1 xl:grid-cols-2 gap-3 sm:gap-4 md:gap-6">
+                
+                <!-- Input Form -->
+                <section class="space-y-3 sm:space-y-4 md:space-y-6">
+                    <div class="gradient-border hover-glow">
+                        <div class="glass rounded-lg sm:rounded-2xl overflow-hidden">
+                            <div class="p-3 sm:p-4 md:p-6 border-b border-slate-700/50 bg-gradient-to-r from-blue-600/10 to-purple-600/10">
+                                <h2 class="text-base sm:text-lg md:text-xl font-bold flex items-center gap-2 sm:gap-3">
+                                    <div class="w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="20" x="4" y="2" rx="2"/><line x1="8" x2="16" y1="6" y2="6"/></svg>
                                     </div>
-                                    <span class="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">Hasil Laporan</span>
+                                    <span class="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">Input Data</span>
                                 </h2>
-                                <p class="text-sm text-slate-400">Preview otomatis, siap disalin.</p>
+                                <p class="text-xs sm:text-sm text-muted mt-1 sm:mt-2">Pilih kategori, provider, dan tempel data Excel Anda.</p>
                             </div>
-                            <button onclick="copyToClipboard()" class="shimmer bg-gradient-to-r from-slate-700 to-slate-600 hover:from-slate-600 hover:to-slate-500 text-white px-5 py-3 rounded-xl text-sm font-bold flex items-center gap-2 transition-all duration-300 shadow-lg hover:scale-105">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg>
-                                Copy
-                            </button>
-                        </div>
-                        
-                        <div class="p-6 flex-1 bg-gradient-to-br from-slate-900/50 to-black/50">
-                            <div id="reportOutput" class="w-full h-full min-h-[500px] font-mono text-sm whitespace-pre-wrap text-zinc-300 overflow-y-auto pr-2 leading-relaxed"></div>
+                            
+                            <div class="p-3 sm:p-4 md:p-6 space-y-3 sm:space-y-4 max-h-[600px] overflow-y-auto">
+                                
+                                <!-- Date Inputs -->
+                                <div class="grid grid-cols-2 gap-2 sm:gap-3">
+                                    <div class="space-y-1.5 sm:space-y-2">
+                                        <label class="text-xs sm:text-sm font-semibold text-slate-300 flex items-center gap-1.5 sm:gap-2">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
+                                            <span class="text-ellipsis">Tanggal Awal</span>
+                                        </label>
+                                        <input type="date" id="startDate" class="w-full bg-slate-900/50 border border-slate-700 rounded-lg px-2 py-2 sm:px-3 sm:py-2.5 text-xs sm:text-sm focus:ring-2 focus:ring-blue-500 text-white transition-all" onchange="updateReportPreview()">
+                                    </div>
+                                    <div class="space-y-1.5 sm:space-y-2">
+                                        <label class="text-xs sm:text-sm font-semibold text-slate-300 flex items-center gap-1.5 sm:gap-2">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
+                                            <span class="text-ellipsis">Tanggal Akhir</span>
+                                        </label>
+                                        <input type="date" id="endDate" class="w-full bg-slate-900/50 border border-slate-700 rounded-lg px-2 py-2 sm:px-3 sm:py-2.5 text-xs sm:text-sm focus:ring-2 focus:ring-blue-500 text-white transition-all" onchange="updateReportPreview()">
+                                    </div>
+                                </div>
+
+                                <!-- Category & Provider -->
+                                <div class="grid grid-cols-2 gap-2 sm:gap-3">
+                                    <div class="space-y-1.5 sm:space-y-2">
+                                        <label class="text-xs sm:text-sm font-semibold text-slate-300 flex items-center gap-1.5 sm:gap-2">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg>
+                                            <span class="text-ellipsis">Kategori</span>
+                                        </label>
+                                        <select id="categorySelect" onchange="handleCategoryChange()" class="w-full bg-slate-900/50 border border-slate-700 rounded-lg px-2 py-2 sm:px-3 sm:py-2.5 text-xs sm:text-sm focus:ring-2 focus:ring-blue-500 text-white transition-all cursor-pointer">
+                                            <option value="SLOT">SLOT</option>
+                                            <option value="LIVEGAME">LIVEGAME</option>
+                                            <option value="SPORT">SPORT</option>
+                                        </select>
+                                    </div>
+                                    <div class="space-y-1.5 sm:space-y-2">
+                                        <label class="text-xs sm:text-sm font-semibold text-slate-300 flex items-center gap-1.5 sm:gap-2">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+                                            <span class="text-ellipsis">Provider</span>
+                                        </label>
+                                        <select id="providerSelect" class="w-full bg-slate-900/50 border border-slate-700 rounded-lg px-2 py-2 sm:px-3 sm:py-2.5 text-xs sm:text-sm focus:ring-2 focus:ring-blue-500 text-white transition-all cursor-pointer">
+                                            <option value="">Pilih Provider...</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <!-- Threshold -->
+                                <div class="space-y-1.5 sm:space-y-2">
+                                    <label class="text-xs sm:text-sm font-semibold text-slate-300 flex items-center gap-1.5 sm:gap-2">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12a2 2 0 0 0 0 4h4v-4Z"/></svg>
+                                        <span class="text-ellipsis">Batas Nominal (Kolom C)</span>
+                                    </label>
+                                    <input type="number" id="thresholdInput" value="-100000" class="w-full bg-slate-900/50 border border-slate-700 rounded-lg px-2 py-2 sm:px-3 sm:py-2.5 text-xs sm:text-sm font-mono focus:ring-2 focus:ring-blue-500 text-white transition-all">
+                                    <p class="text-xs text-slate-400 flex items-center gap-1.5 sm:gap-2">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                                        <span class="text-ellipsis">Hanya data ≤ nilai ini yang akan dihitung.</span>
+                                    </p>
+                                </div>
+
+                                <!-- Textarea -->
+                                <div class="space-y-1.5 sm:space-y-2">
+                                    <label class="text-xs sm:text-sm font-semibold text-slate-300 flex items-center gap-1.5 sm:gap-2">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                                        <span class="text-ellipsis">Tempel Data Excel</span>
+                                    </label>
+                                    <textarea id="dataInput" placeholder="Paste baris data dari Excel di sini... (gunakan Tab untuk pemisah kolom)" class="w-full h-24 sm:h-32 md:h-40 bg-slate-900/50 border border-slate-700 rounded-lg px-2 py-2 sm:px-3 sm:py-2.5 text-xs font-mono leading-relaxed focus:ring-2 focus:ring-blue-500 text-zinc-300 resize-none transition-all"></textarea>
+                                </div>
+
+                                <!-- Action Button -->
+                                <button onclick="processData()" class="shimmer w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white font-bold py-2.5 sm:py-3 rounded-lg sm:rounded-xl transition-all flex items-center justify-center gap-1.5 sm:gap-2 shadow-lg hover:scale-[1.02]">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+                                    <span>Proses Data</span>
+                                </button>
+
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
+                </section>
 
-        </div>
+                <!-- Result -->
+                <section class="space-y-3 sm:space-y-4 md:space-y-6">
+                    <div class="gradient-border hover-glow">
+                        <div class="glass rounded-lg sm:rounded-2xl overflow-hidden">
+                            <div class="p-3 sm:p-4 md:p-6 border-b border-slate-700/50 flex flex-col sm:flex-row sm:items-center justify-between gap-2 sm:gap-4 bg-gradient-to-r from-purple-600/10 to-pink-600/10">
+                                <div class="min-w-0 flex-1">
+                                    <h2 class="text-base sm:text-lg md:text-xl font-bold flex items-center gap-2 sm:gap-3">
+                                        <div class="w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10 bg-gradient-to-br from-purple-500 to-pink-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
+                                        </div>
+                                        <span class="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">Hasil Laporan</span>
+                                    </h2>
+                                    <p class="text-xs sm:text-sm text-slate-400 mt-1">Preview otomatis, siap disalin.</p>
+                                </div>
+                                <button onclick="copyToClipboard()" class="shimmer px-2 py-1.5 sm:px-3 sm:py-2 md:px-5 md:py-3 text-xs sm:text-sm font-bold bg-gradient-to-r from-slate-700 to-slate-600 hover:from-slate-600 hover:to-slate-500 text-white rounded-lg sm:rounded-xl flex items-center gap-1.5 sm:gap-2 shadow-lg hover:scale-105 flex-shrink-0">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg>
+                                    <span class="hidden sm:inline">Copy</span>
+                                </button>
+                            </div>
+                            
+                            <div class="p-3 sm:p-4 md:p-6 h-[400px] sm:h-[500px] bg-gradient-to-br from-slate-900/50 to-black/50 overflow-hidden">
+                                <div id="reportOutput" class="w-full h-full font-mono text-xs sm:text-sm whitespace-pre-wrap text-zinc-300 overflow-y-auto pr-2 leading-relaxed"></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </main>
 
         <!-- Bonus Calculator Tab Content -->
-        <div id="bonusContent" class="hidden">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div id="bonusContent" class="hidden space-y-3 sm:space-y-4 md:space-y-6">
+            <div class="grid grid-cols-1 xl:grid-cols-2 gap-3 sm:gap-4 md:gap-6">
                 
-                <!-- Left Column: Bonus Calculation Form -->
-                <div class="space-y-6">
+                <!-- Bonus Calculation Form -->
+                <section class="space-y-3 sm:space-y-4 md:space-y-6">
                     <div class="gradient-border hover-glow">
-                        <div class="glass rounded-2xl overflow-hidden">
-                            <div class="p-6 border-b border-slate-700/50 bg-gradient-to-r from-green-600/10 to-blue-600/10">
-                                <h2 class="text-xl font-bold flex items-center gap-3">
-                                    <div class="w-10 h-10 bg-gradient-to-br from-green-500 to-blue-600 rounded-lg flex items-center justify-center">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                        <div class="glass rounded-lg sm:rounded-2xl overflow-hidden">
+                            <div class="p-3 sm:p-4 md:p-6 border-b border-slate-700/50 bg-gradient-to-r from-green-600/10 to-blue-600/10">
+                                <h2 class="text-base sm:text-lg md:text-xl font-bold flex items-center gap-2 sm:gap-3">
+                                    <div class="w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10 bg-gradient-to-br from-green-500 to-blue-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
                                     </div>
                                     <span class="bg-gradient-to-r from-green-400 to-blue-400 bg-clip-text text-transparent">Bonus Calculator</span>
                                 </h2>
-                                <p class="text-sm text-muted mt-2">Hitung bonus berdasarkan kekalahan per kategori.</p>
+                                <p class="text-xs sm:text-sm text-muted mt-1 sm:mt-2">Hitung bonus berdasarkan kekalahan per kategori.</p>
                             </div>
                             
-                            <div class="p-6 space-y-5">
+                            <div class="p-3 sm:p-4 md:p-6 space-y-3 sm:space-y-4 max-h-[600px] overflow-y-auto">
                                 
                                 <!-- User ID Input -->
-                                <div class="space-y-2">
-                                    <label class="text-sm font-semibold text-slate-300 flex items-center gap-2">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                                        User ID
+                                <div class="space-y-1.5 sm:space-y-2">
+                                    <label class="text-xs sm:text-sm font-semibold text-slate-300 flex items-center gap-1.5 sm:gap-2">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                                        <span class="text-ellipsis">User ID</span>
                                     </label>
-                                    <input type="text" id="userIdInput" placeholder="Masukkan User ID" class="w-full bg-slate-900/50 border border-slate-700 rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent text-white transition-all hover:border-green-500/50">
+                                    <input type="text" id="userIdInput" placeholder="Masukkan User ID" class="w-full bg-slate-900/50 border border-slate-700 rounded-lg px-2 py-2 sm:px-3 sm:py-2.5 text-xs sm:text-sm focus:ring-2 focus:ring-green-500 text-white transition-all">
                                 </div>
 
                                 <!-- Date Range -->
-                                <div class="grid grid-cols-2 gap-4">
-                                    <div class="space-y-2">
-                                        <label class="text-sm font-semibold text-slate-300 flex items-center gap-2">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
-                                            Tanggal Awal
+                                <div class="grid grid-cols-2 gap-2 sm:gap-3">
+                                    <div class="space-y-1.5 sm:space-y-2">
+                                        <label class="text-xs sm:text-sm font-semibold text-slate-300 flex items-center gap-1.5 sm:gap-2">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
+                                            <span class="text-ellipsis">Tanggal Awal</span>
                                         </label>
-                                        <input type="date" id="bonusStartDate" class="w-full bg-slate-900/50 border border-slate-700 rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent text-white transition-all hover:border-green-500/50">
+                                        <input type="date" id="bonusStartDate" class="w-full bg-slate-900/50 border border-slate-700 rounded-lg px-2 py-2 sm:px-3 sm:py-2.5 text-xs sm:text-sm focus:ring-2 focus:ring-green-500 text-white transition-all">
                                     </div>
-                                    <div class="space-y-2">
-                                        <label class="text-sm font-semibold text-slate-300 flex items-center gap-2">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
-                                            Tanggal Akhir
+                                    <div class="space-y-1.5 sm:space-y-2">
+                                        <label class="text-xs sm:text-sm font-semibold text-slate-300 flex items-center gap-1.5 sm:gap-2">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
+                                            <span class="text-ellipsis">Tanggal Akhir</span>
                                         </label>
-                                        <input type="date" id="bonusEndDate" class="w-full bg-slate-900/50 border border-slate-700 rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent text-white transition-all hover:border-green-500/50">
+                                        <input type="date" id="bonusEndDate" class="w-full bg-slate-900/50 border border-slate-700 rounded-lg px-2 py-2 sm:px-3 sm:py-2.5 text-xs sm:text-sm focus:ring-2 focus:ring-green-500 text-white transition-all">
                                     </div>
                                 </div>
 
                                 <!-- Bonus Rules Info -->
-                                <div class="glass rounded-xl p-4 bg-gradient-to-r from-green-900/20 to-blue-900/20 border border-green-800/30">
-                                    <h3 class="text-sm font-bold text-green-400 mb-3 flex items-center gap-2">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
-                                        Aturan Bonus
+                                <div class="glass rounded-lg p-2 sm:p-3 md:p-4 bg-gradient-to-r from-green-900/20 to-blue-900/20 border border-green-800/30">
+                                    <h3 class="text-xs sm:text-sm font-bold text-green-400 mb-2 flex items-center gap-1.5 sm:gap-2">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                                        <span class="text-ellipsis">Aturan Bonus</span>
                                     </h3>
-                                    <div class="space-y-2 text-xs text-slate-300">
-                                        <div class="flex items-start gap-2">
-                                            <span class="text-blue-400">•</span>
+                                    <div class="space-y-1.5 text-xs text-slate-300">
+                                        <div class="flex items-start gap-1.5 sm:gap-2">
+                                            <span class="text-blue-400 mt-0.5 flex-shrink-0">•</span>
                                             <div>
-                                                <span class="font-semibold text-blue-400">LIVEGAME & SPORT:</span> 2.5% untuk kekalahan Rp.100.000 - Rp.249.999.999, 5% untuk kekalahan > Rp.250.000.000
+                                                <span class="font-semibold text-blue-400">LIVEGAME & SPORT:</span> 2.5% (100K-250M) / 5% (>250M)
                                             </div>
                                         </div>
-                                        <div class="flex items-start gap-2">
-                                            <span class="text-purple-400">•</span>
+                                        <div class="flex items-start gap-1.5 sm:gap-2">
+                                            <span class="text-purple-400 mt-0.5 flex-shrink-0">•</span>
                                             <div>
                                                 <span class="font-semibold text-purple-400">SLOT:</span> 5% untuk semua kekalahan
                                             </div>
@@ -440,123 +499,120 @@
                                 </div>
 
                                 <!-- Loss Amount Inputs -->
-                                <div class="space-y-4">
-                                    <h3 class="text-sm font-semibold text-slate-300">Masukkan Jumlah Kekalahan</h3>
+                                <div class="space-y-2 sm:space-y-3">
+                                    <h3 class="text-xs sm:text-sm font-semibold text-slate-300">Masukkan Jumlah Kekalahan</h3>
                                     
-                                    <div class="space-y-2">
+                                    <div class="space-y-1.5 sm:space-y-2">
                                         <label class="text-xs font-medium text-blue-400">LIVEGAME</label>
-                                        <input type="number" id="livegameLoss" placeholder="0" class="w-full bg-slate-900/50 border border-slate-700 rounded-lg px-4 py-3 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white transition-all hover:border-blue-500/50">
+                                        <input type="number" id="livegameLoss" placeholder="0" class="w-full bg-slate-900/50 border border-slate-700 rounded-lg px-2 py-2 sm:px-3 sm:py-2.5 text-xs sm:text-sm font-mono focus:ring-2 focus:ring-blue-500 text-white transition-all">
                                     </div>
                                     
-                                    <div class="space-y-2">
+                                    <div class="space-y-1.5 sm:space-y-2">
                                         <label class="text-xs font-medium text-purple-400">SLOT</label>
-                                        <input type="number" id="slotLoss" placeholder="0" class="w-full bg-slate-900/50 border border-slate-700 rounded-lg px-4 py-3 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent text-white transition-all hover:border-purple-500/50">
+                                        <input type="number" id="slotLoss" placeholder="0" class="w-full bg-slate-900/50 border border-slate-700 rounded-lg px-2 py-2 sm:px-3 sm:py-2.5 text-xs sm:text-sm font-mono focus:ring-2 focus:ring-purple-500 text-white transition-all">
                                     </div>
                                     
-                                    <div class="space-y-2">
+                                    <div class="space-y-1.5 sm:space-y-2">
                                         <label class="text-xs font-medium text-pink-400">SPORT</label>
-                                        <input type="number" id="sportLoss" placeholder="0" class="w-full bg-slate-900/50 border border-slate-700 rounded-lg px-4 py-3 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent text-white transition-all hover:border-pink-500/50">
+                                        <input type="number" id="sportLoss" placeholder="0" class="w-full bg-slate-900/50 border border-slate-700 rounded-lg px-2 py-2 sm:px-3 sm:py-2.5 text-xs sm:text-sm font-mono focus:ring-2 focus:ring-pink-500 text-white transition-all">
                                         <p class="text-xs text-slate-400">Bonus sama dengan LIVEGAME</p>
                                     </div>
                                 </div>
 
                                 <!-- Calculate Button -->
-                                <button onclick="calculateBonus()" class="shimmer w-full bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-500 hover:to-blue-500 text-white font-bold py-4 rounded-xl transition-all duration-300 flex items-center justify-center gap-3 shadow-lg shadow-green-900/50 hover:shadow-xl hover:shadow-green-900/70 hover:scale-[1.02]">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-                                    Hitung Bonus
+                                <button onclick="calculateBonus()" class="shimmer w-full bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-500 hover:to-blue-500 text-white font-bold py-2.5 sm:py-3 rounded-lg sm:rounded-xl transition-all flex items-center justify-center gap-1.5 sm:gap-2 shadow-lg hover:scale-[1.02]">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                                    <span>Hitung Bonus</span>
                                 </button>
 
                             </div>
                         </div>
                     </div>
-                </div>
+                </section>
 
-                <!-- Right Column: Bonus Result -->
-                <div class="space-y-6">
-                    <div class="gradient-border hover-glow h-full">
-                        <div class="glass rounded-2xl h-full flex flex-col">
-                            <div class="p-6 border-b border-slate-700/50 flex items-center justify-between bg-gradient-to-r from-green-600/10 to-blue-600/10">
-                                <div class="space-y-2">
-                                    <h2 class="text-xl font-bold flex items-center gap-3">
-                                        <div class="w-10 h-10 bg-gradient-to-br from-green-500 to-blue-600 rounded-lg flex items-center justify-center">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                <!-- Bonus Result -->
+                <section class="space-y-3 sm:space-y-4 md:space-y-6">
+                    <div class="gradient-border hover-glow">
+                        <div class="glass rounded-lg sm:rounded-2xl overflow-hidden">
+                            <div class="p-3 sm:p-4 md:p-6 border-b border-slate-700/50 flex flex-col sm:flex-row sm:items-center justify-between gap-2 sm:gap-4 bg-gradient-to-r from-green-600/10 to-blue-600/10">
+                                <div class="min-w-0 flex-1">
+                                    <h2 class="text-base sm:text-lg md:text-xl font-bold flex items-center gap-2 sm:gap-3">
+                                        <div class="w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10 bg-gradient-to-br from-green-500 to-blue-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
                                         </div>
                                         <span class="bg-gradient-to-r from-green-400 to-blue-400 bg-clip-text text-transparent">Hasil Bonus</span>
                                     </h2>
-                                    <p class="text-sm text-slate-400">Detail bonus per kategori.</p>
+                                    <p class="text-xs sm:text-sm text-slate-400 mt-1">Detail bonus per kategori.</p>
                                 </div>
-                                <button onclick="copyBonusToClipboard()" class="shimmer bg-gradient-to-r from-slate-700 to-slate-600 hover:from-slate-600 hover:to-slate-500 text-white px-5 py-3 rounded-xl text-sm font-bold flex items-center gap-2 transition-all duration-300 shadow-lg hover:scale-105">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg>
-                                    Copy
+                                <button onclick="copyBonusToClipboard()" class="shimmer px-2 py-1.5 sm:px-3 sm:py-2 md:px-5 md:py-3 text-xs sm:text-sm font-bold bg-gradient-to-r from-slate-700 to-slate-600 hover:from-slate-600 hover:to-slate-500 text-white rounded-lg sm:rounded-xl flex items-center gap-1.5 sm:gap-2 shadow-lg hover:scale-105 flex-shrink-0">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg>
+                                    <span class="hidden sm:inline">Copy</span>
                                 </button>
                             </div>
                             
-                            <div class="p-6 flex-1 bg-gradient-to-br from-slate-900/50 to-black/50">
-                                <div id="bonusOutput" class="w-full h-full min-h-[500px] space-y-6 overflow-y-auto pr-2">
-                                    <div class="text-center py-12 text-slate-400">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="mx-auto mb-4 opacity-50"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-                                        <p>Hasil perhitungan bonus akan muncul di sini</p>
+                            <div class="p-3 sm:p-4 md:p-6 h-[400px] sm:h-[500px] bg-gradient-to-br from-slate-900/50 to-black/50 overflow-hidden">
+                                <div id="bonusOutput" class="w-full h-full space-y-3 sm:space-y-4 overflow-y-auto pr-2">
+                                    <div class="text-center py-8 sm:py-12 text-slate-400">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="mx-auto mb-3 sm:mb-4 opacity-50"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                                        <p class="text-xs sm:text-sm">Hasil perhitungan bonus akan muncul di sini</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </section>
 
             </div>
             
             <!-- Bonus Summary Table -->
-            <div class="gradient-border hover-glow mt-6">
-                <div class="glass rounded-2xl overflow-hidden">
-                    <div class="p-6 border-b border-slate-700/50 bg-gradient-to-r from-green-600/10 to-blue-600/10">
-                        <h2 class="text-xl font-bold flex items-center gap-3">
-                            <div class="w-10 h-10 bg-gradient-to-br from-green-500 to-blue-600 rounded-lg flex items-center justify-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+            <section class="gradient-border hover-glow">
+                <div class="glass rounded-lg sm:rounded-2xl overflow-hidden">
+                    <div class="p-3 sm:p-4 md:p-6 border-b border-slate-700/50 bg-gradient-to-r from-green-600/10 to-blue-600/10">
+                        <h2 class="text-base sm:text-lg md:text-xl font-bold flex items-center gap-2 sm:gap-3">
+                            <div class="w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10 bg-gradient-to-br from-green-500 to-blue-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
                             </div>
                             <span class="bg-gradient-to-r from-green-400 to-blue-400 bg-clip-text text-transparent">Riwayat Bonus</span>
                         </h2>
-                        <p class="text-sm text-muted mt-2">Riwayat perhitungan bonus per user ID.</p>
+                        <p class="text-xs sm:text-sm text-muted mt-1 sm:mt-2">Riwayat perhitungan bonus per user ID.</p>
                     </div>
                     
-                    <div class="p-6">
-                        <div class="overflow-x-auto">
-                            <table class="w-full text-sm">
+                    <div class="p-3 sm:p-4 md:p-6">
+                        <div class="table-container">
+                            <table class="w-full text-xs sm:text-sm">
                                 <thead>
                                     <tr class="border-b border-slate-700">
-                                        <th class="text-left py-3 px-4 font-semibold text-slate-300">User ID</th>
-                                        <th class="text-left py-3 px-4 font-semibold text-slate-300">Periode</th>
-                                        <th class="text-right py-3 px-4 font-semibold text-blue-400">LIVEGAME Loss</th>
-                                        <th class="text-right py-3 px-4 font-semibold text-blue-400">LIVEGAME Bonus</th>
-                                        <th class="text-right py-3 px-4 font-semibold text-purple-400">SLOT Loss</th>
-                                        <th class="text-right py-3 px-4 font-semibold text-purple-400">SLOT Bonus</th>
-                                        <th class="text-right py-3 px-4 font-semibold text-pink-400">SPORT Loss</th>
-                                        <th class="text-right py-3 px-4 font-semibold text-pink-400">SPORT Bonus</th>
-                                        <th class="text-right py-3 px-4 font-semibold text-green-400">Total Bonus</th>
-                                        <th class="text-center py-3 px-4 font-semibold text-slate-300">Aksi</th>
+                                        <th class="text-left py-2 px-1 sm:py-3 sm:px-2 md:px-4 font-semibold text-slate-300">User ID</th>
+                                        <th class="text-left py-2 px-1 sm:py-3 sm:px-2 md:px-4 font-semibold text-slate-300">Periode</th>
+                                        <th class="text-right py-2 px-1 sm:py-3 sm:px-2 md:px-4 font-semibold text-blue-400">LIVEGAME</th>
+                                        <th class="text-right py-2 px-1 sm:py-3 sm:px-2 md:px-4 font-semibold text-purple-400">SLOT</th>
+                                        <th class="text-right py-2 px-1 sm:py-3 sm:px-2 md:px-4 font-semibold text-pink-400">SPORT</th>
+                                        <th class="text-right py-2 px-1 sm:py-3 sm:px-2 md:px-4 font-semibold text-green-400">Total</th>
+                                        <th class="text-center py-2 px-1 sm:py-3 sm:px-2 md:px-4 font-semibold text-slate-300">Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody id="bonusHistoryTable">
                                     <tr>
-                                        <td colspan="10" class="text-center py-8 text-slate-400">Belum ada data bonus</td>
+                                        <td colspan="7" class="text-center py-4 sm:py-6 md:py-8 text-slate-400 text-xs sm:text-sm">Belum ada data bonus</td>
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
-            </div>
+            </section>
         </div>
 
     </div>
 
-    <!-- Enhanced Toast Notification -->
-    <div id="toast" class="fixed bottom-6 right-6 bg-gradient-to-r from-slate-800 to-slate-900 text-white px-6 py-4 rounded-2xl shadow-2xl transform translate-x-96 opacity-0 transition-all duration-500 flex items-center gap-4 z-50 border border-slate-700">
-        <div id="toastIcon" class="text-green-400">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-3 right-3 sm:bottom-4 sm:right-4 md:bottom-6 md:right-6 bg-gradient-to-r from-slate-800 to-slate-900 text-white px-3 py-2 sm:px-4 sm:py-3 md:px-6 md:py-4 rounded-lg sm:rounded-xl shadow-2xl transform translate-x-full opacity-0 transition-all duration-500 flex items-center gap-2 sm:gap-3 z-50 border border-slate-700 max-w-[280px] sm:max-w-sm">
+        <div id="toastIcon" class="text-green-400 flex-shrink-0">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
         </div>
-        <div>
-            <h4 id="toastTitle" class="font-bold text-base">Success</h4>
-            <p id="toastMessage" class="text-sm text-slate-300">Operation completed.</p>
+        <div class="flex-1 min-w-0">
+            <h4 id="toastTitle" class="font-bold text-xs sm:text-sm md:text-base truncate">Success</h4>
+            <p id="toastMessage" class="text-xs sm:text-sm text-slate-300 truncate">Operation completed.</p>
         </div>
     </div>
 
@@ -565,7 +621,9 @@
         // Create animated particles
         function createParticles() {
             const container = document.getElementById('particles');
-            for (let i = 0; i < 20; i++) {
+            const particleCount = window.innerWidth < 640 ? 5 : (window.innerWidth < 1024 ? 10 : 20);
+            
+            for (let i = 0; i < particleCount; i++) {
                 const particle = document.createElement('div');
                 particle.className = 'particle';
                 particle.style.left = Math.random() * 100 + '%';
@@ -593,7 +651,6 @@
             ]
         };
 
-        // Bonus calculation rules
         const BONUS_RULES = {
             LIVEGAME: {
                 tiers: [
@@ -637,7 +694,7 @@
         function formatDate(dateString) {
             if (!dateString) return "Unknown";
             const date = new Date(dateString);
-            return new Intl.DateTimeFormat('id-ID', { day: '2-digit', month: 'long' }).format(date);
+            return new Intl.DateTimeFormat('id-ID', { day: '2-digit', month: 'short' }).format(date);
         }
 
         function showToast(title, message, type = 'success') {
@@ -650,16 +707,16 @@
             toastMessage.innerText = message;
             
             if (type === 'error') {
-                toastIcon.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-red-400"><circle cx="12" cy="12" r="10"/><line x1="15" x2="9" y1="9" y2="15"/><line x1="9" x2="15" y1="9" y2="15"/></svg>';
-                toast.className = 'fixed bottom-6 right-6 bg-gradient-to-r from-red-900/90 to-red-800/90 text-white px-6 py-4 rounded-2xl shadow-2xl transform translate-x-0 opacity-100 transition-all duration-500 flex items-center gap-4 z-50 border border-red-700';
+                toastIcon.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-red-400"><circle cx="12" cy="12" r="10"/><line x1="15" x2="9" y1="9" y2="15"/><line x1="9" x2="15" y1="9" y2="15"/></svg>';
+                toast.className = 'fixed bottom-3 right-3 sm:bottom-4 sm:right-4 md:bottom-6 md:right-6 bg-gradient-to-r from-red-900/90 to-red-800/90 text-white px-3 py-2 sm:px-4 sm:py-3 md:px-6 md:py-4 rounded-lg sm:rounded-xl shadow-2xl transform translate-x-0 opacity-100 transition-all duration-500 flex items-center gap-2 sm:gap-3 z-50 border border-red-700 max-w-[280px] sm:max-w-sm';
             } else {
-                toastIcon.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-green-400"><path d="M20 6 9 17l-5-5"/></svg>';
-                toast.className = 'fixed bottom-6 right-6 bg-gradient-to-r from-slate-800 to-slate-900 text-white px-6 py-4 rounded-2xl shadow-2xl transform translate-x-0 opacity-100 transition-all duration-500 flex items-center gap-4 z-50 border border-slate-700';
+                toastIcon.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-green-400"><path d="M20 6 9 17l-5-5"/></svg>';
+                toast.className = 'fixed bottom-3 right-3 sm:bottom-4 sm:right-4 md:bottom-6 md:right-6 bg-gradient-to-r from-slate-800 to-slate-900 text-white px-3 py-2 sm:px-4 sm:py-3 md:px-6 md:py-4 rounded-lg sm:rounded-xl shadow-2xl transform translate-x-0 opacity-100 transition-all duration-500 flex items-center gap-2 sm:gap-3 z-50 border border-slate-700 max-w-[280px] sm:max-w-sm';
             }
 
-            toast.classList.remove('translate-x-96', 'opacity-0');
+            toast.classList.remove('translate-x-full', 'opacity-0');
             setTimeout(() => {
-                toast.classList.add('translate-x-96', 'opacity-0');
+                toast.classList.add('translate-x-full', 'opacity-0');
             }, 3000);
         }
 
@@ -685,10 +742,9 @@
             document.getElementById('totalAmount').innerText = formatCurrency(totalAmount);
             document.getElementById('totalBonus').innerText = formatCurrency(totalBonus);
             
-            // Add count animation
-            document.getElementById('totalEntries').classList.add('count-animation');
-            document.getElementById('totalAmount').classList.add('count-animation');
-            document.getElementById('totalBonus').classList.add('count-animation');
+            ['totalEntries', 'totalAmount', 'totalBonus'].forEach(id => {
+                document.getElementById(id).classList.add('count-animation');
+            });
         }
 
         // --- TAB SWITCHING ---
@@ -752,10 +808,8 @@
                 }
             }
             
-            // Calculate total bonus
             const totalBonus = livegameBonus + slotBonus + sportBonus;
             
-            // Create bonus result object
             const bonusResult = {
                 userId,
                 startDate,
@@ -769,15 +823,12 @@
                 totalBonus
             };
             
-            // Add to history
             bonusHistory.push(bonusResult);
             
-            // Update UI
             displayBonusResult(bonusResult);
             updateBonusHistoryTable();
             updateStats();
             
-            // Show success message
             showToast("Sukses", `Bonus untuk User ID ${userId} berhasil dihitung.`);
         }
         
@@ -788,74 +839,72 @@
             const endStr = formatDate(result.endDate);
             
             output.innerHTML = `
-                <div class="glass rounded-xl p-6 bg-gradient-to-br from-slate-800/50 to-slate-900/50 border border-slate-700/50">
-                    <div class="flex items-center justify-between mb-6">
-                        <h3 class="text-xl font-bold text-white">Detail Bonus</h3>
-                        <div class="text-sm text-slate-400">
+                <div class="glass rounded-lg p-3 sm:p-4 md:p-6 bg-gradient-to-br from-slate-800/50 to-slate-900/50 border border-slate-700/50">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-3 sm:mb-4 md:mb-6 gap-2">
+                        <h3 class="text-base sm:text-lg md:text-xl font-bold text-white">Detail Bonus</h3>
+                        <div class="text-xs sm:text-sm text-slate-400">
                             Periode: ${startStr} - ${endStr}
                         </div>
                     </div>
                     
-                    <div class="space-y-4 mb-6">
-                        <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                            </div>
-                            <div>
-                                <p class="text-xs text-slate-400">User ID</p>
-                                <p class="text-lg font-semibold text-white">${result.userId}</p>
-                            </div>
+                    <div class="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4 md:mb-6">
+                        <div class="w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10 bg-blue-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                        </div>
+                        <div class="min-w-0 flex-1">
+                            <p class="text-xs text-slate-400">User ID</p>
+                            <p class="text-sm sm:text-base md:text-lg font-semibold text-white truncate">${result.userId}</p>
                         </div>
                     </div>
                     
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                        <div class="glass rounded-lg p-4 bg-blue-900/20 border border-blue-800/30">
-                            <h4 class="text-sm font-medium text-blue-400 mb-2">LIVEGAME</h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-3 mb-3 sm:mb-4 md:mb-6">
+                        <div class="glass rounded-lg p-2 sm:p-3 bg-blue-900/20 border border-blue-800/30">
+                            <h4 class="text-xs font-medium text-blue-400 mb-1 sm:mb-2">LIVEGAME</h4>
                             <div class="space-y-1">
-                                <div class="flex justify-between">
-                                    <span class="text-xs text-slate-400">Kekalahan:</span>
-                                    <span class="text-sm font-mono text-white">${formatCurrency(result.livegameLoss)}</span>
+                                <div class="flex justify-between text-xs">
+                                    <span class="text-slate-400">Loss:</span>
+                                    <span class="font-mono text-white truncate">${formatCurrency(result.livegameLoss)}</span>
                                 </div>
-                                <div class="flex justify-between">
-                                    <span class="text-xs text-slate-400">Bonus:</span>
-                                    <span class="text-sm font-mono text-blue-400">${formatCurrency(result.livegameBonus)}</span>
+                                <div class="flex justify-between text-xs">
+                                    <span class="text-slate-400">Bonus:</span>
+                                    <span class="font-mono text-blue-400 truncate">${formatCurrency(result.livegameBonus)}</span>
                                 </div>
                             </div>
                         </div>
                         
-                        <div class="glass rounded-lg p-4 bg-purple-900/20 border border-purple-800/30">
-                            <h4 class="text-sm font-medium text-purple-400 mb-2">SLOT</h4>
+                        <div class="glass rounded-lg p-2 sm:p-3 bg-purple-900/20 border border-purple-800/30">
+                            <h4 class="text-xs font-medium text-purple-400 mb-1 sm:mb-2">SLOT</h4>
                             <div class="space-y-1">
-                                <div class="flex justify-between">
-                                    <span class="text-xs text-slate-400">Kekalahan:</span>
-                                    <span class="text-sm font-mono text-white">${formatCurrency(result.slotLoss)}</span>
+                                <div class="flex justify-between text-xs">
+                                    <span class="text-slate-400">Loss:</span>
+                                    <span class="font-mono text-white truncate">${formatCurrency(result.slotLoss)}</span>
                                 </div>
-                                <div class="flex justify-between">
-                                    <span class="text-xs text-slate-400">Bonus:</span>
-                                    <span class="text-sm font-mono text-purple-400">${formatCurrency(result.slotBonus)}</span>
+                                <div class="flex justify-between text-xs">
+                                    <span class="text-slate-400">Bonus:</span>
+                                    <span class="font-mono text-purple-400 truncate">${formatCurrency(result.slotBonus)}</span>
                                 </div>
                             </div>
                         </div>
                         
-                        <div class="glass rounded-lg p-4 bg-pink-900/20 border border-pink-800/30">
-                            <h4 class="text-sm font-medium text-pink-400 mb-2">SPORT</h4>
+                        <div class="glass rounded-lg p-2 sm:p-3 bg-pink-900/20 border border-pink-800/30">
+                            <h4 class="text-xs font-medium text-pink-400 mb-1 sm:mb-2">SPORT</h4>
                             <div class="space-y-1">
-                                <div class="flex justify-between">
-                                    <span class="text-xs text-slate-400">Kekalahan:</span>
-                                    <span class="text-sm font-mono text-white">${formatCurrency(result.sportLoss)}</span>
+                                <div class="flex justify-between text-xs">
+                                    <span class="text-slate-400">Loss:</span>
+                                    <span class="font-mono text-white truncate">${formatCurrency(result.sportLoss)}</span>
                                 </div>
-                                <div class="flex justify-between">
-                                    <span class="text-xs text-slate-400">Bonus:</span>
-                                    <span class="text-sm font-mono text-pink-400">${formatCurrency(result.sportBonus)}</span>
+                                <div class="flex justify-between text-xs">
+                                    <span class="text-slate-400">Bonus:</span>
+                                    <span class="font-mono text-pink-400 truncate">${formatCurrency(result.sportBonus)}</span>
                                 </div>
                             </div>
                         </div>
                     </div>
                     
-                    <div class="glass rounded-lg p-4 bg-gradient-to-r from-green-900/20 to-emerald-900/20 border border-green-800/30">
+                    <div class="glass rounded-lg p-2 sm:p-3 md:p-4 bg-gradient-to-r from-green-900/20 to-emerald-900/20 border border-green-800/30">
                         <div class="flex justify-between items-center">
-                            <h4 class="text-lg font-medium text-green-400">Total Bonus</h4>
-                            <span class="text-2xl font-bold text-white">${formatCurrency(result.totalBonus)}</span>
+                            <h4 class="text-sm sm:text-lg font-medium text-green-400">Total Bonus</h4>
+                            <span class="text-base sm:text-lg md:text-2xl font-bold text-white truncate">${formatCurrency(result.totalBonus)}</span>
                         </div>
                     </div>
                 </div>
@@ -868,7 +917,7 @@
             if (bonusHistory.length === 0) {
                 tableBody.innerHTML = `
                     <tr>
-                        <td colspan="10" class="text-center py-8 text-slate-400">Belum ada data bonus</td>
+                        <td colspan="7" class="text-center py-4 sm:py-6 md:py-8 text-slate-400 text-xs sm:text-sm">Belum ada data bonus</td>
                     </tr>
                 `;
                 return;
@@ -879,19 +928,16 @@
                 const endStr = formatDate(entry.endDate);
                 
                 return `
-                    <tr class="border-b border-slate-800 table-row">
-                        <td class="py-3 px-4 text-white">${entry.userId}</td>
-                        <td class="py-3 px-4 text-slate-300">${startStr} - ${endStr}</td>
-                        <td class="py-3 px-4 text-right font-mono text-blue-300">${formatCurrency(entry.livegameLoss)}</td>
-                        <td class="py-3 px-4 text-right font-mono text-blue-400">${formatCurrency(entry.livegameBonus)}</td>
-                        <td class="py-3 px-4 text-right font-mono text-purple-300">${formatCurrency(entry.slotLoss)}</td>
-                        <td class="py-3 px-4 text-right font-mono text-purple-400">${formatCurrency(entry.slotBonus)}</td>
-                        <td class="py-3 px-4 text-right font-mono text-pink-300">${formatCurrency(entry.sportLoss)}</td>
-                        <td class="py-3 px-4 text-right font-mono text-pink-400">${formatCurrency(entry.sportBonus)}</td>
-                        <td class="py-3 px-4 text-right font-mono text-green-400 font-semibold">${formatCurrency(entry.totalBonus)}</td>
-                        <td class="py-3 px-4 text-center">
-                            <button onclick="removeBonusEntry(${index})" class="text-red-400 hover:text-red-300 transition-colors">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+                    <tr class="border-b border-slate-800 hover:bg-slate-800/30 transition-colors">
+                        <td class="py-2 px-1 sm:py-3 sm:px-2 md:px-4 text-white font-mono text-xs sm:text-sm truncate">${entry.userId}</td>
+                        <td class="py-2 px-1 sm:py-3 sm:px-2 md:px-4 text-slate-300 text-xs sm:text-sm truncate">${startStr} - ${endStr}</td>
+                        <td class="py-2 px-1 sm:py-3 sm:px-2 md:px-4 text-right font-mono text-blue-400 text-xs sm:text-sm truncate">${formatCurrency(entry.livegameBonus)}</td>
+                        <td class="py-2 px-1 sm:py-3 sm:px-2 md:px-4 text-right font-mono text-purple-400 text-xs sm:text-sm truncate">${formatCurrency(entry.slotBonus)}</td>
+                        <td class="py-2 px-1 sm:py-3 sm:px-2 md:px-4 text-right font-mono text-pink-400 text-xs sm:text-sm truncate">${formatCurrency(entry.sportBonus)}</td>
+                        <td class="py-2 px-1 sm:py-3 sm:px-2 md:px-4 text-right font-mono text-green-400 font-semibold text-xs sm:text-sm truncate">${formatCurrency(entry.totalBonus)}</td>
+                        <td class="py-2 px-1 sm:py-3 sm:px-2 md:px-4 text-center">
+                            <button onclick="removeBonusEntry(${index})" class="text-red-400 hover:text-red-300 transition-colors p-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
                             </button>
                         </td>
                     </tr>
@@ -1033,9 +1079,9 @@
                 updateStats();
                 updateBonusHistoryTable();
                 document.getElementById('bonusOutput').innerHTML = `
-                    <div class="text-center py-12 text-slate-400">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="mx-auto mb-4 opacity-50"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-                        <p>Hasil perhitungan bonus akan muncul di sini</p>
+                    <div class="text-center py-8 sm:py-12 text-slate-400">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="mx-auto mb-3 sm:mb-4 opacity-50"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                        <p class="text-xs sm:text-sm">Hasil perhitungan bonus akan muncul di sini</p>
                     </div>
                 `;
                 showToast("Reset", "Semua data berhasil dihapus.");
